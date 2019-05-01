@@ -1,0 +1,14 @@
+{
+  "builders": [{
+    "type": "digitalocean",
+    "image": "centos-7-x64",
+    "region": "ams3",
+    "size": "s-1vcpu-1gb",
+    "ssh_username": "root",
+    "snapshot_name": "app-{{timestamp}}"
+  }],
+  "provisioners": [{
+    "type": "ansible",
+    "playbook_file": "ansible/playbook.yml"
+  }]
+}
