@@ -1,0 +1,14 @@
+[Unit]
+Description=App server
+After=network.target cloud-init.service
+
+[Service]
+Type=simple
+User=root
+EnvironmentFile=-/opt/app/conf.env
+WorkingDirectory=/opt/app
+Environment=GIN_MODE=release
+ExecStart=/opt/app/app
+
+[Install]
+WantedBy=multi-user.target

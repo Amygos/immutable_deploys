@@ -1,0 +1,27 @@
+---
+- hosts: all
+  become: true
+  vars:
+    version: v1
+    url: https://github.com/Amygos/immutable_deploys
+  tasks:
+    - name: Create app directory
+      file:
+        path: /opt/app
+        state: directory
+    - name: Download and install app executable
+      get_url:
+        url: "{{ url }}/releases/download/{{ version }}/app"
+        force: true
+        dest: /opt/app/app
+        mode: 0755
+    - name: Copy Ade-tasks sytemd unit
+      copy:
+        src: app.service
+        dest: /usr/lib/systemd/system/app.service
+    - name: Enable and restart app service
+      systemd:
+        name: app
+        state: restarted
+        daemon_reload: yes
+        enabled: yes
